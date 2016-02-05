@@ -66,8 +66,8 @@ begin
         end if;
         set is_rvalue := false;
         case 
-          when v_state = 'object_begin' then set expect_state := 'string', scope_stack := concat('o', scope_stack), is_lvalue := true;
-          when v_state = 'array_begin' then set expect_state := 'string,object_begin', scope_stack := concat('a', scope_stack), is_lvalue := false;
+          when v_state = 'object_begin' then set expect_state := 'string,object_end', scope_stack := concat('o', scope_stack), is_lvalue := true;
+          when v_state = 'array_begin' then set expect_state := 'string,object_begin,array_end', scope_stack := concat('a', scope_stack), is_lvalue := false;
           when v_state = 'string' and is_lvalue then set expect_state := 'colon', xml_node := v_token;
           when v_state = 'colon' then set expect_state := 'string,number,alpha,object_begin,array_begin', is_lvalue := false;
           when FIND_IN_SET(v_state, 'string,number,alpha') and not is_lvalue then set expect_state := 'comma,object_end,array_end', is_rvalue := true;
